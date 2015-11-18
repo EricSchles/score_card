@@ -54,18 +54,24 @@ def process_sessions(new_sessions,sessions):
 def remove_zeroes(listing):
     return [elem for elem in listing if elem != 0]
 
+def strip_percentage(listing):
+    return [float(elem.strip("%")) for elem in listing]
+
+def average(listing):
+    return sum(listing)/float(len(listing))
+
 @app.route("/vets_dot_gov/stories",methods=["GET","POST"])
 def vets_dot_gov_stories():
-    bounce_rates = [float(elem.strip("%")) for elem in df_vg_bounce_rate["Bounce Rate"].tolist()]
+    bounce_rates = strip_percentage(df_vg_bounce_rate["Bounce Rate"].tolist())
     bounce_rates = remove_zeroes(bounce_rates) #[elem for elem in bounce_rates if elem != 0]
-    ave_users_finding_what_they_need = sum(bounce_rates)/float(len(bounce_rates))
-    new_sessions =  [float(elem.strip("%")) for elem in df_vg_new_sessions["% New Sessions"].tolist()]
+    ave_users_finding_what_they_need = average(bounce_rates)
+    new_sessions =  strip_percentage(df_vg_new_sessions["% New Sessions"].tolist())
     new_sessions = remove_zeroes(new_sessions)
-    ave_percentage_of_new_sessions = sum(new_sessions)/float(len(new_sessions))
+    ave_percentage_of_new_sessions = average(new_sessions)
     sessions =  df_vg_sessions["Sessions"].tolist()
     sessions = remove_zeroes(sessions)
     total_new_sessions = process_sessions(new_sessions,sessions)
-    ave_new_sessions_per_day = sum(total_new_sessions)/float(len(total_new_sessions)) 
+    ave_new_sessions_per_day = average(total_new_sessions) 
     page_views = ["page views"] + df_vg_page_views["Pageviews"].tolist() 
     total_users = df_vg_users["Users"].tolist()
     ave_users = sum(total_users)/float(len(total_users))
