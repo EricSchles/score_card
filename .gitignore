@@ -1,0 +1,6 @@
+*.pickle
+auth_method.*
+*~
+*.pyc
+*.csv
+
