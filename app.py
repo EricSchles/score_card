@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import pickle
-from auth_method import requires_auth
 import json
 import math
 
@@ -20,12 +19,10 @@ df_gb_page_views = pd.read_csv("gi_bill_page_views.csv")
 df_gb_users = pd.read_csv("gi_bill_users.csv")
    
 @app.route("/",methods=["GET","POST"])
-@requires_auth
 def index():
     return render_template("index.html")
 
 @app.route("/vets_dot_gov/timeseries",methods=["GET","POST"])
-@requires_auth
 def vets_dot_gov_timeseries():
     day_index = ["day_index"] + df_vg_bounce_rate["Day Index"].tolist()
     day_index = [elem for elem in day_index if not type(elem) == type(float())]
@@ -58,7 +55,6 @@ def remove_zeroes(listing):
     return [elem for elem in listing if elem != 0]
 
 @app.route("/vets_dot_gov/stories",methods=["GET","POST"])
-@requires_auth
 def vets_dot_gov_stories():
     bounce_rates = [float(elem.strip("%")) for elem in df_vg_bounce_rate["Bounce Rate"].tolist()]
     bounce_rates = remove_zeroes(bounce_rates) #[elem for elem in bounce_rates if elem != 0]
@@ -87,12 +83,10 @@ def vets_dot_gov_stories():
     )
 
 @app.route("/gi_bill",methods=["GET","POST"])
-@requires_auth
 def gi_bill():
     return render_template("gi_bill.html")
 
 @app.route("/comparison",methods=["GET","POST"])
-@requires_auth
 def comparison():
     return render_template("comparison.html")
 
