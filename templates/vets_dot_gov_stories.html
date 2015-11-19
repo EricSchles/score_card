@@ -23,9 +23,9 @@
 {% endif %}
 
 {% if gi_bill %}
-<p>On average individuals are coming to the gi bill comparison tool for new information {{ave_new_sessions_per_day}} times per day.  This makes up {{ave_percentage_of_new_sessions}}% of the total visits on average.</p>
+<p>On average individuals are coming to the gi bill comparison tool for new information {{ave_new_sessions_per_day}} times per day.  This makes up {{ave_percentage_of_new_sessions}}% of the total visits on average.  This is for web traffic specifically to the gi bill comparison tool.</p>
 {% elif vets_dot_gov %}
-<p>On average individuals are coming to vets.gov for new information {{ave_new_sessions_per_day}} times per day.  This makes up {{ave_percentage_of_new_sessions}}% of the total visits on average.</p>
+<p>On average individuals are coming to vets.gov for new information {{ave_new_sessions_per_day}} times per day.  This makes up {{ave_percentage_of_new_sessions}}% of the total visits on average. This is for web traffic specifically to vets.gov and not any of it's subtools, like the Gi Bill Comparison tool.</p>
 {% endif %}
 
 {% if ave_session_duration < 1 %}
