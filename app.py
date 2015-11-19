@@ -92,6 +92,12 @@ def to_seconds(listing):
         new_listing.append(seconds)
     return new_listing
         
+def calc_pages_per_session(page_views,sessions):
+    pages_per_session = []
+    for ind,page_view in enumerate(page_views):
+        pages_per_session.append(page_view/float(sessions[ind]))
+    return pages_per_session
+
 @app.route("/vets_dot_gov/stories",methods=["GET","POST"])
 def vets_dot_gov_stories():
     bounce_rates = strip_percentage(df_vg_bounce_rate["Bounce Rate"].tolist())
@@ -109,6 +115,7 @@ def vets_dot_gov_stories():
     total_users = df_vg_users["Users"].tolist()
     ave_users = average(total_users)
     ave_session_duration = average(to_seconds(df_vg_ave_session_duration["Avg. Session Duration"].tolist()))/float(60)
+    ave_pages_per_session = average(calc_pages_per_session(page_views,sessions))
     
     return render_template(
         "vets_dot_gov_stories.html",
@@ -116,6 +123,7 @@ def vets_dot_gov_stories():
         ave_new_sessions_per_day=round(ave_new_sessions_per_day,2),
         ave_percentage_of_new_sessions=round(ave_percentage_of_new_sessions,2),
         ave_session_duration=round(ave_session_duration,2),
+        ave_pages_per_session=round(ave_pages_per_session,2),
         gi_bill=False,
         vets_dot_gov=True
         #users_finding_what_they_need=json.dumps(bounce_rate),
@@ -142,13 +150,15 @@ def gi_bill_stories():
     total_users = df_vg_users["Users"].tolist()
     ave_users = average(total_users)
     ave_session_duration = average(to_seconds(df_gb_ave_session_duration["Avg. Session Duration"].tolist()))/float(60)
-    
+    ave_pages_per_session = average(calc_pages_per_session(page_views,sessions))
+
     return render_template(
         "vets_dot_gov_stories.html",
         ave_users_finding_what_they_need=round(ave_users_finding_what_they_need,2),
         ave_new_sessions_per_day=round(ave_new_sessions_per_day,2),
         ave_percentage_of_new_sessions=round(ave_percentage_of_new_sessions,2),
         ave_session_duration=round(ave_session_duration,2),
+        ave_pages_per_session=round(ave_pages_per_session,2),
         gi_bill=True,
         vets_dot_gov=False
         #users_finding_what_they_need=json.dumps(bounce_rate),
