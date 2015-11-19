@@ -70,6 +70,7 @@ def process_sessions(new_sessions,sessions):
     return total_new_sessions
 
 def remove_zeroes(listing):
+    listing = [int(elem) for elem in listing]
     return [elem for elem in listing if elem != 0]
 
 def strip_percentage(listing):
