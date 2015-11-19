@@ -33,8 +33,6 @@ def vets_dot_gov_timeseries():
     sessions = ["sessions"] + df_vg_sessions["Sessions"].tolist()
     page_views = ["page views"] + df_vg_page_views["Pageviews"].tolist() 
     users = ["users"] + df_vg_users["Users"].tolist()
-    print type(json.dumps(day_index))
-
     return render_template(
         "vets_dot_gov_timeseries.html",
         day_index=json.dumps(day_index),
@@ -45,6 +43,24 @@ def vets_dot_gov_timeseries():
         users=json.dumps(users)
     )
 
+@app.route("/gi_bill/timeseries",methods=["GET","POST"])
+def gi_bill_timeseries():
+    day_index = ["day_index"] + df_gb_bounce_rate["Day Index"].tolist()
+    day_index = [elem for elem in day_index if not type(elem) == type(float())]
+    bounce_rate = ["bounce rate"] + [elem.strip("%") for elem in df_gb_bounce_rate["Bounce Rate"].tolist()]
+    new_sessions = ["new sessions"] + [elem.strip("%") for elem in df_gb_new_sessions["% New Sessions"].tolist()] 
+    sessions = ["sessions"] + df_gb_sessions["Sessions"].tolist()
+    page_views = ["page views"] + df_gb_page_views["Pageviews"].tolist() 
+    users = ["users"] + df_gb_users["Users"].tolist()
+    return render_template(
+        "vets_dot_gov_timeseries.html",
+        day_index=json.dumps(day_index),
+        bounce_rate=json.dumps(bounce_rate),
+        new_sessions=json.dumps(new_sessions),
+        sessions=json.dumps(sessions),
+        page_views=json.dumps(page_views),
+        users=json.dumps(users)
+    )
 
 def process_sessions(new_sessions,sessions):
     new_sessions = [elem/100 for elem in new_sessions]
@@ -80,7 +96,8 @@ def to_seconds(listing):
 def vets_dot_gov_stories():
     bounce_rates = strip_percentage(df_vg_bounce_rate["Bounce Rate"].tolist())
     bounce_rates = remove_zeroes(bounce_rates) 
-    ave_users_finding_what_they_need = average(bounce_rates)
+    inverse_bounce_rates = invert_percentage(bounce_rates)
+    ave_users_finding_what_they_need = average(inverse_bounce_rates)
     new_sessions =  strip_percentage(df_vg_new_sessions["% New Sessions"].tolist())
     new_sessions = remove_zeroes(new_sessions)
     ave_percentage_of_new_sessions = average(new_sessions)
@@ -110,7 +127,8 @@ def vets_dot_gov_stories():
 def gi_bill_stories():
     bounce_rates = strip_percentage(df_gb_bounce_rate["Bounce Rate"].tolist())
     bounce_rates = remove_zeroes(bounce_rates) #[elem for elem in bounce_rates if elem != 0]
-    ave_users_finding_what_they_need = average(bounce_rates)
+    inverse_bounce_rates = invert_percentage(bounce_rates)
+    ave_users_finding_what_they_need = average(inverse_bounce_rates)
     new_sessions =  strip_percentage(df_gb_new_sessions["% New Sessions"].tolist())
     new_sessions = remove_zeroes(new_sessions)
     ave_percentage_of_new_sessions = average(new_sessions)
