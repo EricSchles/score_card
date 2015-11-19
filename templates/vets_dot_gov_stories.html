@@ -37,5 +37,11 @@
 {% endif %}
 {% endif %}
 
+{% if gi_bill %}
+<p>On average users found {{pages_per_session}} pages on the Gi Bill Comparison Tool useful</p>
+{% elif vets_dot_gov %}
+<p>On average users found {{pages_per_session}} pages on the Vets.gov useful</p>
+{% endif %}
+
 </body>
 </html>
