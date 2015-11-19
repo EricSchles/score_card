@@ -11,12 +11,14 @@ df_vg_new_sessions = pd.read_csv("vets_gov_new_sessions.csv")
 df_vg_sessions = pd.read_csv("vets_gov_sessions.csv")
 df_vg_page_views = pd.read_csv("vets_gov_page_views.csv")
 df_vg_users = pd.read_csv("vets_gov_users.csv")
+df_vg_ave_session_duration = pd.read_csv("vets_gov_ave_session_duration.csv")
 
 df_gb_bounce_rate = pd.read_csv("gi_bill_bounce_rate.csv")
 df_gb_new_sessions = pd.read_csv("gi_bill_new_sessions.csv")
 df_gb_sessions = pd.read_csv("gi_bill_sessions.csv")
 df_gb_page_views = pd.read_csv("gi_bill_page_views.csv")
 df_gb_users = pd.read_csv("gi_bill_users.csv")
+df_gb_ave_session_duration = pd.read_csv("gi_bill_ave_session_duration.csv")
    
 @app.route("/",methods=["GET","POST"])
 def index():
@@ -60,10 +62,17 @@ def strip_percentage(listing):
 def average(listing):
     return sum(listing)/float(len(listing))
 
-def process_average_durations(df):
-    for elem in df.index:
+def to_seconds(listing):
+    new_listing = []
+    for elem in listing:
+        seconds = 0
+        hour_minute_second = elem.split(":")
+        seconds += (int(hour_minute_second[0])*60)*60 #total hours
+        seconds += (int(hour_minute_second[1])* 60) #total minutes
+        seconds += int(hour_minute_second[2])
+        new_listing.append(seconds)
+    return seconds
         
-
 @app.route("/vets_dot_gov/stories",methods=["GET","POST"])
 def vets_dot_gov_stories():
     bounce_rates = strip_percentage(df_vg_bounce_rate["Bounce Rate"].tolist())
