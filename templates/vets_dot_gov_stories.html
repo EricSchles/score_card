@@ -12,9 +12,19 @@
 
 <p>Some interesting statistics</p>
 
+{% if gi_bill %}
+<p>On average individuals found what they were looking for: {{ave_users_finding_what_they_need}}% of the time on gi bill comparison tool.</p>
+
+{% elif vets_dot_gov %}
 <p>On average individuals found what they were looking for: {{ave_users_finding_what_they_need}}% of the time on the main vets.gov website.  It's important to know that this metric doesn't account for times when users went from vets.gov to one of our tools, like the Gi Bill Comparison Tool</p>
 
+{% endif %}
+
+{% if gi_bill %}
 <p>On average individuals are coming to vets.gov for new information {{ave_new_sessions_per_day}} times per day.  This makes up {{ave_percentage_of_new_sessions}}% of the total visits on average.</p>
+{% elif vets_dot_gov %}
+<p>On average individuals are coming to vets.gov for new information {{ave_new_sessions_per_day}} times per day.  This makes up {{ave_percentage_of_new_sessions}}% of the total visits on average.</p>
+{% endif %}
 
 {% if ave_session_duration < 1 %}
 <p>On average individuals spent {{ave_session_duration * 60}} seconds per visit looking for information</p>
