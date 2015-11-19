@@ -10,6 +10,8 @@
 </head>
 <body>
 
+
+<a href="{{ url_for('index') }}"> index of analyses </a>
 <p>Some interesting statistics</p>
 
 {% if gi_bill %}
@@ -35,6 +37,5 @@
 {% endif %}
 {% endif %}
 
-<a href="{{ url_for('index') }}"> index of analyses </a>
 </body>
 </html>
