@@ -3,6 +3,7 @@ import pandas as pd
 import pickle
 import json
 import math
+import numpy as np
 
 app = Flask(__name__)
 
@@ -70,7 +71,8 @@ def process_sessions(new_sessions,sessions):
     return total_new_sessions
 
 def remove_zeroes(listing):
-    listing = [int(elem) for elem in listing]
+    if type(listing[0]) == type(np.int64):
+        listing = [int(elem) for elem in listing]
     return [elem for elem in listing if elem != 0]
 
 def strip_percentage(listing):
@@ -95,6 +97,8 @@ def to_seconds(listing):
         
 def calc_pages_per_session(page_views,sessions):
     pages_per_session = []
+    print page_views
+    print sessions
     for ind,page_view in enumerate(page_views):
         pages_per_session.append(page_view/float(sessions[ind]))
     return pages_per_session
@@ -150,7 +154,8 @@ def gi_bill_stories():
     sessions = remove_zeroes(sessions)
     total_new_sessions = process_sessions(new_sessions,sessions)
     ave_new_sessions_per_day = average(total_new_sessions) 
-    page_views = ["page views"] + df_gb_page_views["Pageviews"].tolist() 
+    page_views = ["page views"] + df_gb_page_views["Pageviews"].tolist()
+    page_views = remove_zeroes(page_views)
     total_users = df_vg_users["Users"].tolist()
     ave_users = average(total_users)
     ave_session_duration = average(to_seconds(df_gb_ave_session_duration["Avg. Session Duration"].tolist()))/float(60)
