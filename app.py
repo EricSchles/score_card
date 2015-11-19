@@ -71,7 +71,7 @@ def to_seconds(listing):
         seconds += (int(hour_minute_second[1])* 60) #total minutes
         seconds += int(hour_minute_second[2])
         new_listing.append(seconds)
-    return seconds
+    return new_listing
         
 @app.route("/vets_dot_gov/stories",methods=["GET","POST"])
 def vets_dot_gov_stories():
@@ -88,14 +88,14 @@ def vets_dot_gov_stories():
     page_views = ["page views"] + df_vg_page_views["Pageviews"].tolist() 
     total_users = df_vg_users["Users"].tolist()
     ave_users = average(total_users)
-    ave_session_duration = average(to_seconds(df_vg_ave_session_duration["Avg. Session Duration"].tolist()))
+    ave_session_duration = average(to_seconds(df_vg_ave_session_duration["Avg. Session Duration"].tolist()))/float(60)
     
     return render_template(
         "vets_dot_gov_stories.html",
         ave_users_finding_what_they_need=round(ave_users_finding_what_they_need,2),
         ave_new_sessions_per_day=round(ave_new_sessions_per_day,2),
         ave_percentage_of_new_sessions=round(ave_percentage_of_new_sessions,2),
-        ave_session_duration=ave_session_duration
+        ave_session_duration=round(ave_session_duration,2)
         #users_finding_what_they_need=json.dumps(bounce_rate),
         #new_sessions=json.dumps(new_sessions),
         #sessions=json.dumps(sessions),
