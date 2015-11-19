@@ -16,7 +16,10 @@
 
 <p>On average individuals are coming to vets.gov for new information {{ave_new_sessions_per_day}} times per day.  This makes up {{ave_percentage_of_new_sessions}}% of the total visits on average.</p>
 
+{% if ave_session_duration < 1 %}
+<p>On average individuals spent {{ave_session_duration * 60}} seconds per visit looking for information</p>
+{% else %}
 <p>On average individuals spent {{ave_session_duration}} minutes per visit looking for information</p> 
-
+{% endif %}
 </body>
 </html>

@@ -111,4 +111,5 @@ def gi_bill():
 def comparison():
     return render_template("comparison.html")
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
