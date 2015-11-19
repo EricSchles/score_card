@@ -27,9 +27,12 @@
 {% endif %}
 
 {% if ave_session_duration < 1 %}
-<p>On average individuals spent {{ave_session_duration * 60}} seconds per visit looking for information</p>
+<p>On average individuals spent {{ave_session_duration * 60}} seconds per visit looking for information, which meant they found what they were looking for very quickly.</p>
 {% else %}
 <p>On average individuals spent {{ave_session_duration}} minutes per visit looking for information</p> 
+{% if ave_session_duration < 5 %}
+<p>This means people were able to find what they needed pretty quickly</p>
+{% endif %}
 {% endif %}
 </body>
 </html>
