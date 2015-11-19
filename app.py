@@ -98,8 +98,11 @@ def calc_pages_per_session(page_views,sessions):
         pages_per_session.append(page_view/float(sessions[ind]))
     return pages_per_session
 
-def to_float(listing):
-    return [float(elem) for elem in listing]
+def strip_label(listing):
+    if type(listing[0]) == type(str()):
+        return [elem for elem in listing[1:]]
+    else:
+        return listing 
 
 @app.route("/vets_dot_gov/stories",methods=["GET","POST"])
 def vets_dot_gov_stories():
@@ -118,7 +121,7 @@ def vets_dot_gov_stories():
     total_users = df_vg_users["Users"].tolist()
     ave_users = average(total_users)
     ave_session_duration = average(to_seconds(df_vg_ave_session_duration["Avg. Session Duration"].tolist()))/float(60)
-    ave_pages_per_session = average(calc_pages_per_session(page_views,to_float(sessions)))
+    ave_pages_per_session = average(calc_pages_per_session(to_float(page_views),to_float(sessions)))
     
     return render_template(
         "vets_dot_gov_stories.html",
@@ -153,7 +156,7 @@ def gi_bill_stories():
     total_users = df_vg_users["Users"].tolist()
     ave_users = average(total_users)
     ave_session_duration = average(to_seconds(df_gb_ave_session_duration["Avg. Session Duration"].tolist()))/float(60)
-    ave_pages_per_session = average(calc_pages_per_session(page_views,sessions))
+    ave_pages_per_session = average(calc_pages_per_session(to_float(page_views),to_float(sessions)))
 
     return render_template(
         "vets_dot_gov_stories.html",
