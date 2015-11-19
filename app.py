@@ -103,10 +103,38 @@ def vets_dot_gov_stories():
         #users=json.dumps(users)
     )
 
-@app.route("/gi_bill",methods=["GET","POST"])
-def gi_bill():
-    return render_template("gi_bill.html")
+@app.route("/gi_bill/stories",methods=["GET","POST"])
+def gi_bill_stories():
+    bounce_rates = strip_percentage(df_vg_bounce_rate["Bounce Rate"].tolist())
+    bounce_rates = remove_zeroes(bounce_rates) #[elem for elem in bounce_rates if elem != 0]
+    ave_users_finding_what_they_need = average(bounce_rates)
+    new_sessions =  strip_percentage(df_vg_new_sessions["% New Sessions"].tolist())
+    new_sessions = remove_zeroes(new_sessions)
+    ave_percentage_of_new_sessions = average(new_sessions)
+    sessions =  df_vg_sessions["Sessions"].tolist()
+    sessions = remove_zeroes(sessions)
+    total_new_sessions = process_sessions(new_sessions,sessions)
+    ave_new_sessions_per_day = average(total_new_sessions) 
+    page_views = ["page views"] + df_vg_page_views["Pageviews"].tolist() 
+    total_users = df_vg_users["Users"].tolist()
+    ave_users = average(total_users)
+    ave_session_duration = average(to_seconds(df_vg_ave_session_duration["Avg. Session Duration"].tolist()))/float(60)
+    
+    return render_template(
+        "gi_bill_stories.html",
+        ave_users_finding_what_they_need=round(ave_users_finding_what_they_need,2),
+        ave_new_sessions_per_day=round(ave_new_sessions_per_day,2),
+        ave_percentage_of_new_sessions=round(ave_percentage_of_new_sessions,2),
+        ave_session_duration=round(ave_session_duration,2)
+        #users_finding_what_they_need=json.dumps(bounce_rate),
+        #new_sessions=json.dumps(new_sessions),
+        #sessions=json.dumps(sessions),
+        #page_views=json.dumps(page_views),
+        #users=json.dumps(users)
+    )
 
+
+  
 @app.route("/comparison",methods=["GET","POST"])
 def comparison():
     return render_template("comparison.html")
