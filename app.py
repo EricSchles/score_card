@@ -115,7 +115,7 @@ def vets_dot_gov_stories():
         ave_users_finding_what_they_need=round(ave_users_finding_what_they_need,2),
         ave_new_sessions_per_day=round(ave_new_sessions_per_day,2),
         ave_percentage_of_new_sessions=round(ave_percentage_of_new_sessions,2),
-        ave_session_duration=round(ave_session_duration,2)
+        ave_session_duration=round(ave_session_duration,2),
         gi_bill=False,
         vets_dot_gov=True
         #users_finding_what_they_need=json.dumps(bounce_rate),
