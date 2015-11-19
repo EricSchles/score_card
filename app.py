@@ -60,6 +60,10 @@ def strip_percentage(listing):
 def average(listing):
     return sum(listing)/float(len(listing))
 
+def process_average_durations(df):
+    for elem in df.index:
+        
+
 @app.route("/vets_dot_gov/stories",methods=["GET","POST"])
 def vets_dot_gov_stories():
     bounce_rates = strip_percentage(df_vg_bounce_rate["Bounce Rate"].tolist())
