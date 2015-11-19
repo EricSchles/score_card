@@ -94,8 +94,6 @@ def to_seconds(listing):
         
 def calc_pages_per_session(page_views,sessions):
     pages_per_session = []
-    print len(page_views)
-    print len(sessions)
     for ind,page_view in enumerate(page_views):
         pages_per_session.append(page_view/float(sessions[ind]))
     return pages_per_session
