@@ -1,0 +1,2 @@
+client ID: 429297332060-dg0j8nc4sa6tksduohs57534t7t5qskg.apps.googleusercontent.com
+secret: Rl2Si1MMdKMW2rjYKnnna0O4
